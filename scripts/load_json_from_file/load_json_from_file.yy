@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"load_json_from_file",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"load_json_from_file",
+  "parent":{
+    "name":"Saves",
+    "path":"folders/Scripts/Data/Saves.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

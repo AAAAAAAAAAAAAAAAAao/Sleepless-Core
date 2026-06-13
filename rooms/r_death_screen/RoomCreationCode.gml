@@ -1,0 +1,1 @@
+new_textbox("You have died", 2, c_white, ["7:Restart", "8:Exit"]);

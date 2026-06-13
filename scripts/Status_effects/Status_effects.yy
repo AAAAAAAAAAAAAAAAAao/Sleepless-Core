@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Status_effects",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Status_effects",
+  "parent":{
+    "name":"Battle",
+    "path":"folders/Scripts/Data/Battle.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

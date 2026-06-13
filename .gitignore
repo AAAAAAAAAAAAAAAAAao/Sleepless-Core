@@ -1,0 +1,20 @@
+# GameMaker Studio 2 / GameMaker - gitignore
+
+# Тимчасові файли та кеш компіляції
+Холд/
+*.GMasst*
+*.tmp
+*.log
+*.ini
+*.unshare
+
+# Папки локальних налаштувань (там зберігається твій макет вікон, історія пошуку тощо)
+.yy_metadata/
+local_settings.json
+
+# Кеш рушія та експорт
+/cache/
+/export/
+
+# Якщо використовуєш вбудований таск-менеджер
+todo.txt

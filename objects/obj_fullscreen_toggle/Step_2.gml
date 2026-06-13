@@ -1,0 +1,1 @@
+window_set_fullscreen(global.settings.fullscreen);

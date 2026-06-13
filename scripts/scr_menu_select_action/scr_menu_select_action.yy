@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_menu_select_action",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_menu_select_action",
+  "parent":{
+    "name":"Menu",
+    "path":"folders/Scripts/Battle/Menu.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

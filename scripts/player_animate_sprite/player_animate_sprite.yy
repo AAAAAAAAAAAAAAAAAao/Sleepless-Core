@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"player_animate_sprite",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"player_animate_sprite",
+  "parent":{
+    "name":"PLayer",
+    "path":"folders/Scripts/PLayer.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

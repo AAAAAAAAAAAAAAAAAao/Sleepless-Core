@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"new_encounter",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"new_encounter",
+  "parent":{
+    "name":"Battle",
+    "path":"folders/Scripts/Battle.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

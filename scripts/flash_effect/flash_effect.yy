@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"flash_effect",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"flash_effect",
+  "parent":{
+    "name":"Effects",
+    "path":"folders/Scripts/Effects.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"Friends_scopes",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"Friends_scopes",
+  "parent":{
+    "name":"Battle",
+    "path":"folders/Scripts/Data/Battle.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

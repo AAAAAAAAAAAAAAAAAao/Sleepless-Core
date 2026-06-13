@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"activate_quest_TEST",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"activate_quest_TEST",
+  "parent":{
+    "name":"Quests",
+    "path":"folders/Scripts/Quests.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
