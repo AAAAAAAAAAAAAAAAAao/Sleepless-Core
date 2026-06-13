@@ -9,7 +9,7 @@ function new_textbox(_message, _background = 0, _text_color = c_lime , _Response
     else{
         _obj = obj_text;
     }
-    with (instance_create_layer(0, 0, "Instances", _obj)){
+    with (instance_create_depth(0, 0, -9999, _obj)){
         message = _message;
         if (instance_exists(other)) origin_instance = other.id else origin_instance = noone; 
         background = _background;

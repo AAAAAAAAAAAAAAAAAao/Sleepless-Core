@@ -24,8 +24,8 @@ for (var l = 0; l < (visible_options_max + _desc); l++) {
 	}
 }
 
-draw_sprite(spr_pointer, 0, x + x_margin + 8, y + y_margin + ((hover - _scroll_push) * height_line) + 7);
+draw_sprite(spr_pointer, 0, x + x_margin - 8, y + y_margin + ((hover - _scroll_push) * height_line) + 9);
 
 if (visible_options_max < array_length(options)) && (hover < array_length(options) -1) {
-	draw_sprite(spr_pointer_down, 0, x + width_full * 0.5, y + height_full - 7);
+	draw_sprite(spr_pointer_down, 0, x + width_full * 0.5, y + height_full - 13);
 }

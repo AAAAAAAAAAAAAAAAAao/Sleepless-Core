@@ -1,6 +1,9 @@
 function battle_state_victory_check(){
 	deaths = 0;
-	party_units_by_hp = party_units;
+	party_units_by_hp = [];
+	
+	array_copy(party_units_by_hp, 0, party_units, 0, array_length(party_units));
+	
 	refresh_party_health_order = function(){
 		array_sort(party_units_by_hp, function(_1, _2){
 			return _2.hp - _1.hp;
@@ -24,9 +27,14 @@ function battle_state_victory_check(){
 		//Чи померли всі вороги
 		if (enemy_units_by_hp[0].hp <= 0) {
 			//Записати дані з битви до глобалів
+			
 			for (var i = 0; i < array_length(global.party); i++) {
-				global.party[i].hp 	= party_units[i].hp;
-				global.battle_won 	= true;
+				for (var j = 0; j < array_length(party_units); j++) {
+					if (global.party[i].name = party_units[j].name) {
+						global.party[i].hp 	= party_units[j].hp;
+						global.battle_won = true;
+					}
+				}
 			}
 		}
 		else {

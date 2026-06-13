@@ -88,7 +88,7 @@
   "name":"r_mikesHouse_mikesRoom",
   "parent":{
     "name":"Mike's house",
-    "path":"folders/Rooms/Mike's house.yy",
+    "path":"folders/Rooms/Important/Mike's house.yy",
   },
   "parentRoom":{
     "name":"r_parent",

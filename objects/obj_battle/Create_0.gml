@@ -28,9 +28,6 @@ aim_window_id 				= noone;
 global.aim_target			= noone;
 global.aim_user				= noone;
 
-//Для відображення ефектів
-icon_alpha = 0;
-
 //Для анімації
 bottom_ui_y				= y + 300; // до y + 200
 bottom_ui_text_alpha 	= 0; //до 100
@@ -69,7 +66,7 @@ for (var i = 0; i < array_length(enemies); i++){
 											y + 150 - ((i-1)*30), 
 											depth - 10,
 											obj_battle_unit_enemy,
-											enemies[i]
+											variable_clone(enemies[i])
 											);
 	xp_pending += obj_battle.enemy_units[i].xp_value;
 	array_push(units, enemy_units[i]);

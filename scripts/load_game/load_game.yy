@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"load_game",
   "parent":{
-    "name":"Saves",
-    "path":"folders/Scripts/Data/Saves.yy",
+    "name":"Game",
+    "path":"folders/Scripts/Data/Saves/Game.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

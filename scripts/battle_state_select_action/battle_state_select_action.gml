@@ -1,94 +1,125 @@
+///@description Стан бою. Вибір дії, яка буде виконуватись виконавцем. Створює меню для гравця та використовує ai_script для ворога
 function battle_state_select_action(){
 	
+	//Якщо меню не існує - створити його (щоб не створювало меню весь час)
 	if (!instance_exists(obj_menu)) {
 		var _unit = units[turn];
 		var _conscious = true;
 		
-		// \/ Статус-ефекти \/
+		//Якщо статус-ефекти присутні, провести махінації над ними
 		if (array_length(_unit.status_effects) > 0) {
+			
+			//Пройтись по кожному
 			for (var i = array_length(_unit.status_effects) - 1; i >= 0 ; i--) {
 				var _effect = _unit.status_effects[i];
 				
+				//Якщо ефект ще може продовжуватись
 				if (_effect.turns_passed < _effect.duration) {
+					
+					//Провести його функцію та збільшити його лічильник
 					_effect.func(_unit);
 					_effect.turns_passed++;
 				}
-				else {
-					battle_remove_status(_unit, _effect);
-				}
+				
+				//Якщо ефекту пора йти
+				else battle_remove_status(_unit, _effect);
 			}
 		}
-		// /\ Статус-ефекти /\
-		//Чи при свідомості
+		
+		//Перевірка свідомості
 		for (var i = array_length(_unit.status_effects) - 1; i >= 0; i--) {
 			if (_unit.status_effects[i].name == global.status_effects.unconscious.name) { 
 				_conscious = false;
 			}
 		}
+		
 		_unit.image_index = _unit.sprites.idle;
+		
 		//Перевірка на дієздатність
 		if (!instance_exists(_unit)) || (_unit.hp <= 0){
+			
+			//Помер, не діє
 			battle_state = battle_state_victory_check;
 			exit;
 		}
+		
+		//Якщо при свідомості - діє
 		if (_conscious) {
+			
 			//Чи контролюється гравцем
 			if (_unit.object_index == obj_battle_unit_PC) {
-				
 				var _menu_options	= [];
 				var _sub_menus		= {};
-				//Дії
+				
+				//Додавання дій в меню
 				var _action_list = _unit.actions;
 				for (var i = 0; i < array_length(_action_list); i++) {
 					var _action = _action_list[i];
-					var _available = (_action.ep_cost / 2 <= _unit.ep); //Якщо персонаж має меньш, ніж 50% потрібної енергії - опція недоступна
+					
+					//Якщо персонаж має меньш, ніж 50% потрібної енергії - опція недоступна
+					var _available = (_action.ep_cost / 2 <= _unit.ep); 
+					
 					var _name_and_count = _action.name;
-					if (_action.sub_menu == -1) {
-						array_push(_menu_options, [_name_and_count, menu_select_action, [_unit, _action], _available]);
-					}
+					
+					//Якщо не підпадає під субменю - вивести на головне меню битви
+					if (_action.sub_menu == -1) array_push(_menu_options, [_name_and_count, menu_select_action, [_unit, _action], _available]);
+					
+					//Інакше додати в підменю
 					else {
-						//Додати або створити субменю
-						if (is_undefined(_sub_menus[$ _action.sub_menu])) {
-							variable_struct_set(_sub_menus, _action.sub_menu, [[_name_and_count, menu_select_action, [_unit, _action], _available]]);
-						}
-						else {
-							array_push(_sub_menus[$ _action.sub_menu], [_name_and_count, menu_select_action, [_unit, _action], _available]);
-						}
+						//Або створити підменю
+						if (is_undefined(_sub_menus[$ _action.sub_menu])) 	variable_struct_set(_sub_menus, _action.sub_menu, [[_name_and_count, menu_select_action, [_unit, _action], _available]]);
+						else 												array_push(_sub_menus[$ _action.sub_menu], [_name_and_count, menu_select_action, [_unit, _action], _available]);
 					}
 				}
+				
 				//Предмети
-				var _items = global.items;
-				var _items_names = struct_get_names(_items);
+				var _items 			= global.items;
+				var _items_names 	= struct_get_names(_items);
+				
+				//Пройтись по кожному предмету
 				for (var i = 0; i < array_length(_items_names); i++) {
+					
+					//Якщо кількість більше нуля
 					if (struct_get(_items, _items_names[i]).count > 0) {
-						var _item = struct_get(_items, _items_names[i]);
+						
+						//Додати в підменю "Предмети"
+						var _item 			= struct_get(_items, _items_names[i]);
 						var _name_and_count = _item.name + " x " + string(_item.count);
-						//Додати або створити субменю
-						if (is_undefined(_sub_menus[$ _item.sub_menu])) {
-							variable_struct_set(_sub_menus, _item.sub_menu, [[_name_and_count, menu_select_action, [_unit, _item], true]]);
-						}
-						else {
-							array_push(_sub_menus[$ _item.sub_menu], [_name_and_count, menu_select_action, [_unit, _item], true]);
-						}
+						
+						//(Або створити його)
+						if (is_undefined(_sub_menus[$ _item.sub_menu])) variable_struct_set(_sub_menus, _item.sub_menu, [[_name_and_count, menu_select_action, [_unit, _item], true]]);
+						else array_push(_sub_menus[$ _item.sub_menu], [_name_and_count, menu_select_action, [_unit, _item], true]);
 					}
 				}
+				
 				//Перетворити субменю на array
 				var _sub_menus_array = variable_struct_get_names(_sub_menus);
 				
+				//Пройтись по субменюшкам
 				for (var i = 0; i < array_length(_sub_menus_array); i++) {
 					//Тут відстортувати за потреби
+					//Доробити. Відсортуй пж
 					
-					//Додати кнопку "Назад"
+					//Додати кнопку "Назад" в кінці субменюшок
 					array_push(_sub_menus[$ _sub_menus_array[i]], ["BACK", menu_go_back, -1, true]);
+					
+					//Додати самі субменю в меню
 					array_push(_menu_options, [_sub_menus_array[i], sub_menu, [_sub_menus[$ _sub_menus_array[i]]], true]);
 				}
+				
+				//Нарешті створити меню
 				menu(x, y+100, _menu_options, , 74, 100);
 			}
+			
+			//А якщо ворог - виконується його ai_script.
 			else {
 				var _enemy_action = _unit.ai_script();
+				
 				if (_enemy_action != -1) begin_action(_unit.id, _enemy_action[0], _enemy_action[1]);
 			}
 		}
+		
+		//Інакше - використати дію-пропуск (якщо не при свідомості)
 		else {
 			begin_action(_unit, global.action_library.standby, -1);
 		}

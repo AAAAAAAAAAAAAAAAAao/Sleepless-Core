@@ -1,1 +1,0 @@
-TEST_obj_test_man.flash = 0.5;

@@ -1,8 +1,21 @@
 //Задній фон
 draw_sprite_stretched_ext(spr_textBox_bg, 0, AIM_WINDOW_X1, AIM_WINDOW_Y1, AIM_WINDOW_W, AIM_WINDOW_H, c_white, window_alpha / 100); //300х200
 
-//Ворог
-draw_sprite_ext(enemy_sprite, 0, enemy_x, enemy_y, image_xscale, image_yscale, 0, c_white, enemy_alpha / 100);
+//Ворогб ілюзії та хвости
+for (var i = 0; i < enemy_count; i++) {
+	var _enemy = enemy_data[i];
+	
+	//Хвіст
+	if (!_enemy.is_real) {
+		for (var t = 0; t < array_length(_enemy.trail); t++) {
+			var _trail = _enemy.trail[t];
+			draw_sprite_ext(enemy_sprite, -1, _trail[0], _trail[1], image_xscale, image_yscale, 0, c_white, (_trail[2] * 0.3) * (enemy_alpha / 100));
+		}
+	}
+	
+	//Власне ворог
+	draw_sprite_ext(enemy_sprite, -1, _enemy.x, _enemy.y, image_xscale, image_yscale, 0, c_white, enemy_alpha / 100);
+}
 
 //Час, що остався
 draw_set_colour(c_white);

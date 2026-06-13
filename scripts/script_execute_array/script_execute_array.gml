@@ -1,6 +1,7 @@
+///@desc execute script with argument array
+///@pure
+///@returns any
 function script_execute_array(_scr, _args){ //взято з відео
-    /// @desc execute script with argument array
-    /// @returns any
     switch (array_length_1d(_args)) {
      
      case 1: return script_execute(_scr, _args[0]);

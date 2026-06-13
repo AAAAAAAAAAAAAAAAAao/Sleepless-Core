@@ -41,12 +41,7 @@ global.items = {
 		effect_on_target: 			MODE.ALWAYS,
 		count:						1,
 		func: function(_user, _target) {
-			if (array_length(_target) > 1) {
-				for (var i = 0; i < array_length(_target) - 1; i++) {
-					battle_change_hp(_target[i], -5);
-				}
-			}
-			battle_change_hp(_target[0], -5);
+			battle_change_hp(_target, -5);
 		} 
 	}
 }

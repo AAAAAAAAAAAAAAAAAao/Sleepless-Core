@@ -1,7 +1,7 @@
 #macro FRAME_RATE	60
 #macro TILE_SIZE	32
 #macro CARRIDAL_DIR	round(direction/90)
-#macro ROOM_START	TEST_r_test_room
+#macro ROOM_START	r_title_screen //Поки r_battles, потім r_title_screen
 
 #macro RESOLUTION_W 400
 #macro RESOLUTION_H 300

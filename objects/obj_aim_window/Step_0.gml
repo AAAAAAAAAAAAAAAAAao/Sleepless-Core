@@ -1,13 +1,31 @@
-//Переміщення ворога
-for (var i = 0; i < 4; i++) {
-	var new_var = undefined;
-	switch (i) {
-		case 0: enemy_x 	= enemy_evade_script(enemy_x, enemy_y, enemy_x_to, enemy_y_to, i, time_passed, gun_restrict_x1, gun_restrict_x2, gun_restrict_y1, gun_restrict_y2); break;
-		case 1: enemy_y 	= enemy_evade_script(enemy_x, enemy_y, enemy_x_to, enemy_y_to, i, time_passed, gun_restrict_x1, gun_restrict_x2, gun_restrict_y1, gun_restrict_y2); break;
-		case 2: new_var 	= enemy_evade_script(enemy_x, enemy_y, enemy_x_to, enemy_y_to, i, time_passed, gun_restrict_x1, gun_restrict_x2, gun_restrict_y1, gun_restrict_y2); if (!is_undefined(new_var)) enemy_x_to = new_var; break;
-		case 3: new_var 	= enemy_evade_script(enemy_x, enemy_y, enemy_x_to, enemy_y_to, i, time_passed, gun_restrict_x1, gun_restrict_x2, gun_restrict_y1, gun_restrict_y2); if (!is_undefined(new_var)) enemy_y_to = new_var; break;
+//Переміщення ворога (або ворогів)
+for (var j = 0; j < enemy_count; j++) {
+	var _enemy = enemy_data[j];
+	
+	for (var i = 0; i < 4; i++) {
+		var _res = _enemy.evade_script(_enemy.x, _enemy.y, _enemy.x_to, _enemy.y_to, i, time_passed, gun_restrict_x1, gun_restrict_x2, gun_restrict_y1, gun_restrict_y2);
+		
+		switch (i) {
+			case 0: _enemy.x = _res; break;
+            case 1: _enemy.y = _res; break;
+            case 2: if (!is_undefined(_res)) _enemy.x_to = _res; break;
+            case 3: if (!is_undefined(_res)) _enemy.y_to = _res; break;
+		}
 	}
+	
+	//Для хвоств ілюізій
+	if (!_enemy.is_real) {
+		
+		//Додавання післяфото в масив
+		array_push(_enemy.trail, [_enemy.x, _enemy.y, 1.0]);
+		
+		//Видалення останнього
+		if (array_length(_enemy.trail) > 20) array_delete(_enemy.trail, 0, 1);
+	}
+	
+	enemy_data[j] = _enemy;
 }
+
 
 
 //управління 
@@ -44,24 +62,41 @@ var aim_x = gun_back_x + lengthdir_x(_distance, aim_dir);
 var aim_y = gun_back_y + lengthdir_y(_distance, aim_dir);
 
 //Стрільба
-if (keyboard_check_pressed(ord("Z")) or keyboard_check_pressed(vk_enter)) and (!shot) shot = true;
+if (keyboard_check_pressed(ord("Z")) or keyboard_check_pressed(vk_enter)) and (!shot) {
+	shot = true;
+	
+	//Якщо Маша
+	if (global.aim_user.name == global.party[1].name) {
+		//Коли стріляє, 5% шанс отримати баф на 25% урону
+		var _dice = irandom_range(1,100);
+		if (_dice <= 5) {
+			battle_add_status(global.aim_user, global.status_effects.ATK_buff25);
+		}
+	}
+}
 
 if (shot) {
 	var bullet_x = aim_x;
 	var bullet_y = aim_y + 16; //Чомусь вистрелювало на 16 px вище
 	
-	show_debug_message("x:" + string(bullet_x) + " y:" + string(bullet_y));
-	//Чи попав
-
-	var _left = enemy_x - sprite_get_width(enemy_sprite) * 0.5;
-	var _right = enemy_x + sprite_get_width(enemy_sprite) * 0.5;
-	var _top = enemy_y - sprite_get_height(enemy_sprite) * 0.5;
-	var _bottom = enemy_y + sprite_get_height(enemy_sprite) * 0.5;
 	
-	
-	if (bullet_x >= _left and bullet_x <= _right and 
-		bullet_y >= _top and bullet_y <= _bottom and !scored
-	) scored = true;
+	//Чи попав, по всім
+	for (var i = 0; i < enemy_count; i++) {
+		var _enemy 			= enemy_data[i];
+		var _sprite_width 	= sprite_get_width(enemy_sprite) * 0.5;
+		var _sprite_heigth 	= sprite_get_height(enemy_sprite) * 0.5;
+		
+		//Чи попав
+		if (bullet_x >= _enemy.x - _sprite_width and bullet_x <= _enemy.x + _sprite_width and bullet_y >= _enemy.y - _sprite_heigth and bullet_y <= _enemy.y + _sprite_heigth and !scored){
+			if (_enemy.is_real) {
+				scored = true;
+				hit_target = global.aim_target;
+				break;
+			}
+			
+			if (_enemy.is_real) break;
+		}
+	}
 }
 
 
@@ -84,16 +119,20 @@ if (window_alpha >= 30) and !scored {
 }
 
 if (shot) {
+	//Анімація того, хто стріляє
+	global.aim_user.sprite_index 	= global.aim_user.sprites.shoot;
 	window_alpha 	= lerp(window_alpha, 0, animation_speed);
 	gun_alpha 		= lerp(gun_alpha, 0, animation_speed);
 	enemy_alpha 	= lerp(enemy_alpha, 0, animation_speed);
 	//Вліпив все таки сюди атаку
-	if (window_alpha <= 30) and(shot) {
-		var _damage = 0;
+	if (window_alpha <= 30) {
+		if (scored and hit_target != noone) {
+			battle_change_hp(hit_target, -global.aim_user.atk);
+		}
+		else {
+			battle_change_hp(global.aim_target, 0);
+		}
 		
-		if (scored) _damage = ceil(global.aim_user.atk + random_range(-global.aim_user.atk * 0.25, global.aim_user.atk * 0.25));
-		
-		battle_change_hp(global.aim_target, -_damage, 0);
 		battle_change_ep(global.aim_user, -global.action_library.attack.ep_cost);
 		instance_destroy();
 	}

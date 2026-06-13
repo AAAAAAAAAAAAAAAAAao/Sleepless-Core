@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"load_settings",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"load_settings",
+  "parent":{
+    "name":"Settings",
+    "path":"folders/Scripts/Data/Saves/Settings.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

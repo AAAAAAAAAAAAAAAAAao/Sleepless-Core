@@ -35,7 +35,7 @@ if (bg_alpha >= 30) {
 				draw_set_colour(c_white);
 				if (_char.id == _unit_with_current_turn) draw_set_color (c_yellow);
 					
-				draw_text(x + COLUMN_ENEMY, y + 236 + (i*16), _char.name);
+				draw_text(x + COLUMN_ENEMY, y + 236 + ((_drawn - 1)*16), _char.name);
 			}
 		}
 		//Малювання імен друзів
@@ -100,15 +100,20 @@ if (bg_alpha >= 30) {
 		draw_set_alpha(1.0);
 		draw_set_font(fnt_text);
 	}
+	
 	//Статус-ефекти
 	for (var i = 0; i < array_length(units); i++) {
-		var _status_effects_count = array_length(units[i].status_effects)
 		
-		if (_status_effects_count > 0) {
-			for (var j = 0; j < _status_effects_count; j++) {
-				var _status_effect = units[i].status_effects[j];
-				var turns_passed = _status_effect.turns_passed;
-				draw_sprite_ext(_status_effect.sprite, turns_passed, units[i].x - 20, units[i].y - 8 - j * 8, image_xscale, image_yscale, 0, c_white, icon_alpha[j] / 100);
+		//Якщо живий
+		if (units[i].hp > 0) {
+			var _status_effects_count = array_length(units[i].status_effects)
+			
+			if (_status_effects_count > 0) {
+				for (var j = 0; j < _status_effects_count; j++) {
+					var _status_effect = units[i].status_effects[j];
+					var turns_passed = _status_effect.turns_passed;
+					draw_sprite_ext(_status_effect.sprite, turns_passed, units[i].x - 20, units[i].y - 8 - j * 8, image_xscale, image_yscale, 0, c_white, _status_effect.draw_alpha / 100);
+				}
 			}
 		}
 	}

@@ -121,21 +121,19 @@ if (global.battle_won) {
 
 //Для статус-ефектів
 for (var i = 0; i < array_length(units); i++) {
-	var _status_effects_count = array_length(units[i].status_effects)
+	var _current_unit_effects = units[i].status_effects;
+	var _status_effects_count = array_length(_current_unit_effects);
 	
 	if (_status_effects_count > 0) {
 		for (var j = 0; j < _status_effects_count; j++) {
-			if (array_length(icon_alpha) < _status_effects_count) {
-				icon_alpha[j] = 0;
-			}
 			
 			//Чи з'являється, чи зникає
-			var _current_effect = units[i].status_effects[j];
+			var _current_effect = _current_unit_effects[j];
 			if (_current_effect.turns_passed < _current_effect.duration) {
-				icon_alpha[j] = lerp(icon_alpha[j], 100, 0.1);
+				_current_effect.draw_alpha = lerp(_current_effect.draw_alpha, 100, 0.1);
 			}
 			else {
-				icon_alpha[j] = lerp(icon_alpha[j], 0, 0.1);
+				_current_effect.draw_alpha = lerp(_current_effect.draw_alpha, 0, 0.1);
 			}
 		}
 	}

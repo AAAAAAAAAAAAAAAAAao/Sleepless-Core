@@ -1,0 +1,1 @@
+battle_change_hp(party_units[0], -9999, 2);
