@@ -9,11 +9,11 @@ if (show_template) {
 		draw_set_font(fnt_text);
 		draw_set_halign(fa_center);
 		draw_set_valign(fa_top);
-		draw_text(200, -3, "Battle System Test");
+		draw_text(200, -3, "Sleepless Core");
 		
 		//Копірайт
 		draw_set_colour(#050098);
-		draw_text(200, 284, "v0.0.1 (C)Copyright 2026 2026. NoOneGuy.");
+		draw_text(200, 284, "v0.0.0 (C)Copyright 2026 2026. NoOneGuy.");
 		
 		//Меню
 		draw_set_halign(fa_left);

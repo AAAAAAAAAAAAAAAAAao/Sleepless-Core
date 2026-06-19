@@ -22,7 +22,7 @@ global.menu_options = [
 						if (!file_exists(_filename)) {
 							_empty_save_available = true;
 							global.game_save_slot = _slot;
-							transition(TRANS_TYPE.FADE, TEST_r_test_room);
+							transition(TRANS_TYPE.FADE, r_mikesHouse_mikesRoom);
 							break;
 						}
 					}
@@ -39,7 +39,7 @@ global.menu_options = [
 				script_step:	function (){
 					if (keyboard_check_pressed(ord("Z")) or keyboard_check_pressed(vk_enter)) {
 						global.game_save_slot 		= global.submenu2_selected;
-						transition(TRANS_TYPE.FADE, TEST_r_test_room);
+						transition(TRANS_TYPE.FADE, r_mikesHouse_mikesRoom);
 					}
 				},
 				script_draw:	function (){
